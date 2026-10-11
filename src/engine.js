@@ -118,7 +118,10 @@ export class Battle {
   return false;
  }
  getMove(p,i){return i===-1?{id:'struggle',name:'Forcejeo',type:'normal',power:50,category:'physical',accuracy:100,priority:0,recoil:.25}:p.moves[i];}
- switchTo(i){this.ally.stages={atk:0,def:0,spa:0,spd:0,spe:0};this.ally.toxic=0;this.active=i;}
+ switchTo(i){
+  if(this.ally.formId){const original=makePokemon(this.ally.id,this.ally.level);Object.assign(this.ally,{name:original.name,types:original.types,stats:original.stats,moves:original.moves,formId:null});}
+  this.ally.stages={atk:0,def:0,spa:0,spd:0,spe:0};this.ally.toxic=0;this.active=i;
+ }
  attack(side,index) {
   const a=side==='player'?this.ally:this.foe,d=side==='player'?this.foe:this.ally;
   if(!a.hp||!d.hp)return;
