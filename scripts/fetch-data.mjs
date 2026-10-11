@@ -76,7 +76,7 @@ const raw=await pool(Array.from({length:151},(_,i)=>i+1),async id=>{
  const stats=Object.fromEntries(p.stats.map((s,i)=>[statKeys[i],s.base_stat]));
  // Pre-generation-VI base stats for the species buffed afterwards.
  const old={12:{spa:80},15:{atk:80},18:{spe:91},24:{atk:85},25:{def:30,spd:40},26:{spe:100},31:{atk:82},34:{atk:92},
-  36:{spa:85},40:{spa:75},45:{spa:100},62:{atk:85},65:{spd:85},71:{spd:60},76:{atk:110},83:{atk:65},
+  36:{spa:85},40:{spa:75},45:{spa:100},51:{atk:80},62:{atk:85},65:{spd:85},71:{spd:60},76:{atk:110},83:{atk:65},
   85:{spe:100},101:{spe:140},103:{spd:65},164:{spa:76}};
  Object.assign(stats,old[id]??{});
  const learn=p.moves.filter(m=>known.has(m.move.name)&&m.version_group_details.some(v=>v.version_group.name==='firered-leafgreen'&&v.level_learned_at<=88)).map(m=>m.move.name);
