@@ -1,11 +1,13 @@
 import {POKEMON,MOVES} from './data.js';
 import {dailyTeam,redTeam,dayKey,LEGENDS,RARE,TYPE_NAMES,Battle,effectiveness} from './engine.js';
 import {drawMap} from './scene.js';
+import {setupTheme} from './theme.js';
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sprite=(p,side='front')=>`./assets/pokemon/${side}/${p.formId??p.id}.png`;
 const badges=p=>p.types.map(t=>`<span class="type-badge type-${t}">${TYPE_NAMES[t]}</span>`).join('');
+const refreshMap=()=>{const p=team[lead];$('map').setAttribute('aria-label',`Cima nevada del Monte Plateado: Red y sus seis Pokémon esperan sobre una plataforma. Tu entrenador y ${p.name} están frente a él.`);return drawMap($('map'),p.id,document.documentElement.dataset.theme==='dark');};
 let day=dayKey(),team=dailyTeam(day),lead=0,battle=null,view=null,busy=false,menu='main',battleDay=day,log=[],sound=false,audio=null,record={};
 let storageAvailable=true;
 try{const saved=JSON.parse(localStorage.getItem('daily-red-record-v1')??'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))record=saved;}catch{storageAvailable=false;}
@@ -35,6 +37,7 @@ function renderExplore(){
  $('phase-label').innerHTML='<span class="status-dot"></span> EXPLORACIÓN';
  $('game-controls').innerHTML=`<div class="control-message"><strong>Todo empieza con un “…”</strong><p>Elige tu Pokémon inicial y habla con Red.<br>El combate comienza cuando tú estés listo.</p></div><button class="primary-button" data-action="talk">Hablar con Red <span>→</span></button>`;
  renderTeam();renderRed();
+ refreshMap();
 }
 function showDetail(i){
  const p=(view?.player??team)[i];if(!p)return;
@@ -94,12 +97,12 @@ function showResult(){
 function backToSummit(){closeModal();battle=null;view=null;busy=false;menu='main';refreshDay();team=dailyTeam(day);renderExplore();}
 function showHelp(){openModal('<div class="modal-kicker">ANTES DE SUBIR A LA CIMA</div><h2 id="modal-title" class="modal-title">Tu reto, a tu ritmo.</h2><div class="modal-copy"><p><strong>1. Conoce a tu equipo.</strong> Toca sus fichas para ver estadísticas y movimientos. Elige quién saldrá primero.</p><p><strong>2. Habla con Red.</strong> Toca a Red en el mapa o el botón “Hablar con Red”. Después, acepta el reto.</p><p><strong>3. Decide cada turno.</strong> Ataca, cambia de Pokémon o usa una de tus dos Máximas Pociones. Cambiar o curar consume un turno; elegir un sustituto cuando uno cae es gratis.</p><p>Gana quien conserve algún Pokémon en pie. Puedes repetir el combate con el mismo equipo. Tu equipo se renueva a las <strong>00:00 UTC</strong>, al mismo tiempo para todos.</p><p>Esta es una recreación web con reglas simplificadas de la generación III: tipos, estadísticas, PP, estados y prioridad. No incluye habilidades, objetos equipados ni todos los efectos de los juegos originales.</p></div><div class="button-row"><button class="primary-button" data-action="close">Entendido <span>↗</span></button></div>');}
 function showRates(){openModal('<div class="modal-kicker">EL AZAR TAMBIÉN JUEGA</div><h2 id="modal-title" class="modal-title">Un equipo distinto cada día.</h2><div class="modal-copy"><p>Los <strong>151 Pokémon de Kanto</strong> pueden aparecer. Cada una de las seis plazas sortea una categoría y después una especie, sin repetir Pokémon.</p></div><div class="rate-row"><span>Comunes</span><strong>74 %</strong></div><div class="rate-row"><span>Poco comunes</span><strong>24 %</strong></div><div class="rate-row legend"><span>Legendarios y Mew ✦</span><strong>2 %</strong></div><div class="modal-copy" style="margin-top:20px"><p>Porcentajes <strong>por plaza</strong>. La categoría especial contiene a Articuno, Zapdos, Moltres, Mewtwo y Mew. La probabilidad de obtener al menos uno en las seis plazas es aproximadamente del <strong>11,4 %</strong>.</p><p>Tu equipo tiene niveles <strong>84–88</strong>, frente a los <strong>80–88</strong> de Red. El nivel está equilibrado; la fuerza de las especies y los tipos también influye en la dificultad.</p><p>El sorteo depende de la fecha UTC: todos reciben el mismo reto. Recargar la página conserva el equipo del día. Los resultados se guardan en este navegador.</p></div>');}
-function showCredits(){openModal('<div class="modal-kicker">HECHO POR FANS, PARA FANS</div><h2 id="modal-title" class="modal-title">Créditos.</h2><div class="modal-copy"><p>Pokémon y sus personajes pertenecen a Nintendo, Game Freak y Creatures. Proyecto de fans independiente, sin afiliación oficial.</p><p>Datos y sprites de Rojo Fuego / Verde Hoja: <a href="https://pokeapi.co/" target="_blank" rel="noopener">PokéAPI</a> y su <a href="https://github.com/PokeAPI/sprites" target="_blank" rel="noopener">repositorio de sprites</a>. Mapa, interfaz y sonidos creados para Daily Red.</p><p>Tipografías DM Sans y Press Start 2P, disponibles con licencia SIL Open Font License.</p><p>Esta web es una recreación del combate. La ROM adjunta no se modifica, se ejecuta ni se distribuye.</p></div>');}
+function showCredits(){openModal('<div class="modal-kicker">HECHO POR FANS, PARA FANS</div><h2 id="modal-title" class="modal-title">Créditos.</h2><div class="modal-copy"><p>Pokémon y sus personajes pertenecen a Nintendo, Game Freak y Creatures. Proyecto de fans independiente, sin afiliación oficial.</p><p>Datos y sprites de Rojo Fuego / Verde Hoja: <a href="https://pokeapi.co/" target="_blank" rel="noopener">PokéAPI</a> y su <a href="https://github.com/PokeAPI/sprites" target="_blank" rel="noopener">repositorio de sprites</a>. Sprites de Red: <a href="https://github.com/pret/pokefirered" target="_blank" rel="noopener">pret/pokefirered</a>. Pokémon de campo de HeartGold/SoulSilver: Veekun y <a href="https://github.com/teobz/pkmn-hgss-animated-overworld-sprites" target="_blank" rel="noopener">teobz</a>. Mapa, interfaz y sonidos creados para Daily Red.</p><p>Tipografías DM Sans y Press Start 2P, disponibles con licencia SIL Open Font License.</p><p>Esta web es una recreación del combate. La ROM adjunta no se modifica, se ejecuta ni se distribuye.</p></div>');}
 $('help-button').onclick=showHelp;$('rates-button').onclick=showRates;$('credits-button').onclick=showCredits;$('map-red').onclick=talk;
 document.addEventListener('click',async e=>{
  const button=e.target.closest('button');if(!button||button.disabled)return;
  if(button.dataset.detail!==undefined){showDetail(Number(button.dataset.detail));return;}
- if(button.dataset.lead!==undefined){lead=Number(button.dataset.lead);closeModal();renderTeam();toast(`${team[lead].name} saldrá primero.`);return;}
+ if(button.dataset.lead!==undefined){lead=Number(button.dataset.lead);closeModal();renderTeam();refreshMap();toast(`${team[lead].name} saldrá primero.`);return;}
  if(button.dataset.move!==undefined){await play({kind:'move',index:Number(button.dataset.move)});return;}
  if(button.dataset.switch!==undefined){await play({kind:'switch',index:Number(button.dataset.switch)});return;}
  const action=button.dataset.action;
@@ -123,4 +126,4 @@ function updateClock(){
  const formatted=new Intl.DateTimeFormat('es',{day:'numeric',month:'long',timeZone:'UTC'}).format(now);$('today-label').textContent=formatted[0].toUpperCase()+formatted.slice(1)+` '${String(now.getUTCFullYear()).slice(-2)}`;
  refreshDay();
 }
-drawMap($('map'));renderExplore();renderRecord();updateClock();setInterval(updateClock,1000);
+setupTheme(()=>refreshMap());renderExplore();renderRecord();updateClock();setInterval(updateClock,1000);

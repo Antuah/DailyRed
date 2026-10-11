@@ -1,0 +1,66 @@
+/* Shared scene layout and theme control. */
+:root{color-scheme:light}
+.header-controls{display:flex;gap:10px;align-items:center}
+.theme-button{display:flex;gap:8px;align-items:center;padding:9px 12px;border:1px solid var(--border);border-radius:30px;background:none;color:var(--muted);font-size:10px;white-space:nowrap}
+.theme-button:hover{color:var(--ink);border-color:var(--green)}
+.theme-button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.game-view{aspect-ratio:320/192;background:#dce7e9}
+.game-view:has(#map[hidden]){aspect-ratio:384/172}
+.map-red{left:45%;top:34%;height:23%;width:10%;z-index:3}
+.map-caption{top:12px;bottom:auto;left:12px;background:#f6faf1e8;border-color:#a3b7bc;color:#425d66}
+.speech-bubble{border-radius:3px;border-color:#465d67;box-shadow:2px 2px 0 #344e6433;font-size:12px;color:#314951}
+.speech-bubble:after{border-color:#465d67}
+.snowfall{position:absolute;inset:-30% -10%;pointer-events:none;z-index:2;opacity:.65;background-image:radial-gradient(1px 1px at 17px 12px,#fff 98%,transparent),radial-gradient(1px 1px at 31px 32px,#fff 98%,transparent),radial-gradient(2px 2px at 60px 49px,#f8fbfccc 98%,transparent);background-size:81px 63px,117px 103px,193px 151px;animation:snow-drift 14s linear infinite}
+.game-view:has(#map[hidden]) .snowfall{display:none}
+.red-portrait img{width:80px;height:80px;object-fit:contain;image-rendering:pixelated;position:relative;z-index:1}
+@keyframes snow-drift{to{background-position:-81px 126px,-117px 206px,-193px 302px}}
+
+/* Night palette: every interactive surface remains readable. */
+:root[data-theme='dark']{color-scheme:dark;--paper:#151d23;--ink:#e6ece7;--muted:#9aa7a9;--red:#f07466;--border:#33414b;--panel:#1c272f;--green:#93b89e}
+[data-theme='dark'] .encounter,[data-theme='dark'] dialog{border-color:var(--border);box-shadow:0 8px 30px #0003}
+[data-theme='dark'] .game-topbar{background:#1c272f}
+[data-theme='dark'] .location-sub,[data-theme='dark'] .utc-note{color:#829396}
+[data-theme='dark'] .game-controls{border-color:#33414b}
+[data-theme='dark'] .primary-button{background:#ef796b;color:#17222a;border-color:#e78977;box-shadow:0 2px 0 #ae5147}
+[data-theme='dark'] .primary-button:hover{background:#fa9987}
+[data-theme='dark'] .secondary-button{background:#2b3942;color:var(--ink)}
+[data-theme='dark'] .team-card.lead{background:#243b3c;border-color:#72958b}
+[data-theme='dark'] .team-card:hover{border-color:#72958b;box-shadow:0 8px 16px #0003}
+[data-theme='dark'] .card-topline,[data-theme='dark'] .card-bottom{color:#9fb0af}
+[data-theme='dark'] .lead-badge{color:#acccb7}
+[data-theme='dark'] .card-bottom{border-color:#33414b}
+[data-theme='dark'] .legend-mark{color:#e3c879}
+[data-theme='dark'] .type-badge{--type-bg:#37424b;--type-fg:#c6d1d3}
+[data-theme='dark'] .type-grass,[data-theme='dark'] .type-bug{--type-bg:#334536;--type-fg:#b6d59e}
+[data-theme='dark'] .type-water,[data-theme='dark'] .type-ice{--type-bg:#2d4654;--type-fg:#a1d0e4}
+[data-theme='dark'] .type-fire{--type-bg:#513d36;--type-fg:#edb491}
+[data-theme='dark'] .type-electric{--type-bg:#4b452f;--type-fg:#ead18a}
+[data-theme='dark'] .type-poison,[data-theme='dark'] .type-ghost{--type-bg:#45394f;--type-fg:#d1acdf}
+[data-theme='dark'] .type-psychic{--type-bg:#4b3547;--type-fg:#e0acc8}
+[data-theme='dark'] .type-fighting,[data-theme='dark'] .type-rock,[data-theme='dark'] .type-ground{--type-bg:#494239;--type-fg:#d5bea0}
+[data-theme='dark'] .type-flying,[data-theme='dark'] .type-dragon{--type-bg:#393d55;--type-fg:#bbc2e9}
+[data-theme='dark'] .type-steel{--type-bg:#334845;--type-fg:#b1d2c8}
+[data-theme='dark'] .daily-record p,[data-theme='dark'] .daily-record .small-label,[data-theme='dark'] .site-footer{color:var(--muted)}
+[data-theme='dark'] .record-icon{color:#a6b99d}
+[data-theme='dark'] .modal-copy,[data-theme='dark'] .dialogue-caption{color:#b0bdba}
+[data-theme='dark'] .detail-top>img,[data-theme='dark'] .stat-grid>div,[data-theme='dark'] .dialogue,[data-theme='dark'] .result-mons,[data-theme='dark'] .rate-row{background:#27383f}
+[data-theme='dark'] .rate-row.legend{background:#45412d;color:#e4ce8b}
+[data-theme='dark'] .rival-panel{background-color:#1c292a;background-image:radial-gradient(ellipse at 50% 35%,#556a5a44,transparent 65%)}
+[data-theme='dark'] .rival-panel h2 span{color:var(--red)}
+[data-theme='dark'] .map-caption{background:#243640e8;border-color:#8ea7b366;color:#d5e3e7}
+[data-theme='dark'] .battle-scene{background:linear-gradient(#283d46 0 15%,#334b52 15% 40%,#3d565b 40% 75%,#294249 75%)}
+[data-theme='dark'] .battle-scene:before{opacity:.25}
+[data-theme='dark'] .battle-platform{background:#49636a;border-color:#3b5259}
+[data-theme='dark'] .battle-hud{background:#1d2d35;border-color:#768f90;box-shadow:3px 3px 0 #101e2880}
+[data-theme='dark'] .hud-level,[data-theme='dark'] .hp-numbers{color:#b0c0be}
+[data-theme='dark'] .hp-track{background:#344a4b;border-color:#799390}
+[data-theme='dark'] .hp-label{color:#ddc88a}
+[data-theme='dark'] .battle-action-row button,[data-theme='dark'] .move-button,[data-theme='dark'] .switch-button{background:#2a3a43;border-color:#42565c;color:var(--ink)}
+[data-theme='dark'] .battle-action-row button:first-child{background:#324a49;border-color:#72958b}
+[data-theme='dark'] .switch-button small{color:#aabbba}
+[data-theme='dark'] .toast{background:#d5e4db;color:#21302d}
+[data-theme='dark'] dialog::backdrop{background:#071016bd}
+@media(max-width:900px){.site-header{gap:20px}.header-controls{gap:8px}.theme-button{padding:9px}#theme-label{display:none}}
+@media(max-width:680px){.site-header{gap:10px}.header-controls{gap:6px}.theme-button{padding:8px}.theme-button svg{width:14px;height:14px}.site-header nav{gap:11px}.map-red{left:44%;top:34%;height:23%;width:12%}.speech-bubble{font-size:10px;line-height:13px;padding:0 5px 4px}.speech-bubble:after{left:10px}.map-caption{top:9px;bottom:auto;left:9px;font-size:7px}}
+@media(max-width:370px){.site-header nav>a{display:none}.site-header nav{margin-left:auto}.brand{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.snowfall{animation:none}}

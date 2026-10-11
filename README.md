@@ -11,6 +11,8 @@ Revisa las fichas de tus seis Pokémon y elige el inicial. Después toca a Red e
 - El equipo es igual para todos durante una fecha UTC y cambia a las 00:00 UTC. Recargar o volver a intentar no vuelve a sortearlo.
 - Tu equipo tiene niveles 84–88. Red usa Pikachu (88), Lapras (80), Snorlax (82), Venusaur (84), Charizard (84) y Blastoise (84).
 - Puedes atacar, cambiar Pokémon y usar dos Máximas Pociones por combate. Los intentos y victorias se guardan en este navegador; no hay cuentas ni clasificación online.
+- La cima usa una vista cenital nevada, sprites originales de Red y Pokémon de campo. Tu Pokémon inicial aparece junto a tu entrenador antes del combate.
+- El botón de luna/sol cambia entre modo claro y oscuro. La elección se recuerda en este navegador; si todavía no has elegido, se usa la preferencia del sistema.
 
 El motor recrea un subconjunto de reglas de generación III: estadísticas, tabla de tipos, categorías físicas/especiales por tipo, STAB, precisión, prioridad, críticos, PP, sueño, parálisis, quemadura, congelación, veneno, veneno grave, curación, absorción, retroceso, cambios de estadísticas y Transformación. Incluye 86 movimientos y los elige de los movimientos que cada especie aprende en Rojo Fuego/Verde Hoja. Algunos Pokémon tienen menos de cuatro movimientos compatibles. No implementa habilidades, objetos equipados, clima, confusión, cambios secundarios de estadísticas de ataques ni todos los movimientos o efectos del juego original. Los niveles son comparables; una especie débil sigue siendo un reto mayor.
 
@@ -48,6 +50,8 @@ Repositorio de destino: [Antuah/DailyRed](https://github.com/Antuah/DailyRed).
 - Sprites: [PokeAPI/sprites](https://github.com/PokeAPI/sprites), directorio `generation-iii/firered-leafgreen`.
 - Tipografías: DM Sans y Press Start 2P, SIL Open Font License; licencias incluidas en `assets/fonts/`.
 - Mapa, interfaz y sonidos originales de este proyecto.
+- Sprites de Red (campo y retrato): [pret/pokefirered](https://github.com/pret/pokefirered).
+- Pokémon de campo de HeartGold/SoulSilver: colección de [Veekun](https://veekun.com/dex/downloads), animaciones de [teobz](https://github.com/teobz/pkmn-hgss-animated-overworld-sprites). Estos gráficos pertenecen a los titulares de Pokémon.
 
 Pokémon, sus nombres y personajes pertenecen a Nintendo, Game Freak y Creatures. Proyecto independiente de fans, sin afiliación oficial. No se otorga una licencia sobre recursos de terceros.
 
