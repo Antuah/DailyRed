@@ -78,6 +78,7 @@ test('Ditto recupera su forma y estadísticas al salir del campo',()=>{
  const b=new Battle([makePokemon(132,86),makePokemon(143,86,['body-slam'])],0,()=>.5);
  b.choose({kind:'move',index:0});assert.equal(b.ally.formId,25);b.choose({kind:'switch',index:1});
  assert.equal(b.player[0].formId,null);assert.equal(b.player[0].name,'Ditto');assert.equal(b.player[0].moves[0].id,'transform');
+ assert.equal(b.player[0].moves[0].ppLeft,MOVES.transform.pp-1);
 });
 test('Cien combates completos terminan con PS válidos y sin bloquear el cambio forzado',()=>{
  for(let i=0;i<100;i++){const rng=seedRandom(`battle-${i}`),b=new Battle(dailyTeam(`date-${i}`),0,rng);let turns=0;

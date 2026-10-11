@@ -27,7 +27,8 @@ export function pickDailyIds(day) {
  const normal=POKEMON.map(p=>p.id).filter(id=>!LEGENDS.includes(id)&&!RARE.includes(id));
  for(let i=0;i<6;i++) {
   const roll=rng();const bucket=roll<.02?LEGENDS:roll<.26?RARE:normal;
-  const available=bucket.filter(id=>!used.has(id));const id=available[Math.floor(rng()*available.length)];
+  let available=bucket.filter(id=>!used.has(id));if(!available.length)available=normal.filter(id=>!used.has(id));
+  const id=available[Math.floor(rng()*available.length)];
   used.add(id);team.push({id,level:84+Math.floor(rng()*5)});
  }
  return team;
@@ -119,7 +120,7 @@ export class Battle {
  }
  getMove(p,i){return i===-1?{id:'struggle',name:'Forcejeo',type:'normal',power:50,category:'physical',accuracy:100,priority:0,recoil:.25}:p.moves[i];}
  switchTo(i){
-  if(this.ally.formId){const original=makePokemon(this.ally.id,this.ally.level);Object.assign(this.ally,{name:original.name,types:original.types,stats:original.stats,moves:original.moves,formId:null});}
+  if(this.ally.formId){Object.assign(this.ally,this.ally.originalForm,{formId:null});delete this.ally.originalForm;}
   this.ally.stages={atk:0,def:0,spa:0,spd:0,spe:0};this.ally.toxic=0;this.active=i;
  }
  attack(side,index) {
@@ -132,7 +133,7 @@ export class Battle {
   const m=this.getMove(a,index);if(index!==-1)m.ppLeft--;
   this.emit(`${a.name} usó ${m.name}.`,{attack:side,type:m.type});
   if(!m.neverMiss&&this.rng()*100>=m.accuracy){this.emit(`¡El ataque de ${a.name} falló!`);return;}
-  if(m.transform){a.formId=d.formId??d.id;a.name=`Ditto (${d.name})`;a.types=[...d.types];a.stats={...d.stats,hp:a.maxHp};a.stages={...d.stages};a.moves=d.moves.map(m=>({...m,ppLeft:5,pp:5}));this.emit(`¡Ditto se transformó en ${d.name}!`);return;}
+  if(m.transform){a.originalForm??={name:a.name,types:[...a.types],stats:{...a.stats},moves:structuredClone(a.moves)};a.formId=d.formId??d.id;a.name=`Ditto (${d.name})`;a.types=[...d.types];a.stats={...d.stats,hp:a.maxHp};a.stages={...d.stages};a.moves=d.moves.map(m=>({...m,ppLeft:5,pp:5}));this.emit(`¡Ditto se transformó en ${d.name}!`);return;}
   if(m.heal||m.rest){const old=a.hp;a.hp=Math.min(a.maxHp,a.hp+(m.rest?a.maxHp:Math.floor(a.maxHp*m.heal)));if(m.rest){a.status='slp';a.statusTurns=3;}this.emit(a.hp>old?`${a.name} recuperó ${a.hp-old} PS.`:'No tuvo efecto.',{heal:side});return;}
   if(m.boost||m.lower){const target=m.boost?a:d;let changed=false;for(const[k,v]of Object.entries(m.boost??m.lower)){const old=target.stages[k];target.stages[k]=Math.max(-6,Math.min(6,old+v));if(old!==target.stages[k])changed=true;}this.emit(changed?`${m.boost?'Subieron':'Bajaron'} las estadísticas de ${target.name}.`:'Las estadísticas no pueden cambiar más.');return;}
   if(m.splash){this.emit('Pero no ocurrió nada.');return;}

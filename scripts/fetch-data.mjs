@@ -61,6 +61,10 @@ const moveList=await pool(definitions,async([id,name,power,extra={}])=>{
  return {id,name,type:m.type.name,power,accuracy:m.accuracy??100,neverMiss:m.accuracy===null,pp:m.pp,
   category:m.damage_class.name==='status'?'status':specialTypes.has(m.type.name)?'special':'physical',priority:m.priority,...extra};
 });
+const gen3Values={tackle:{accuracy:95},'vine-whip':{pp:10},'mega-drain':{pp:10},'giga-drain':{pp:5},
+ 'leech-life':{pp:15},recover:{pp:20},'soft-boiled':{pp:10},rest:{pp:10},'thunder-wave':{accuracy:100},
+ toxic:{accuracy:85},'swords-dance':{pp:30},growth:{pp:40},'string-shot':{accuracy:95}};
+for(const m of moveList)Object.assign(m,gen3Values[m.id]??{});
 const known=new Set(moveList.map(m=>m.id));
 const statKeys=['hp','atk','def','spa','spd','spe'];
 const inherit={11:10,14:13,15:13};
