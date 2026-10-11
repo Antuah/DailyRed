@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f6f4ed">
+  <meta name="description" content="Seis Pokémon de Kanto. Un nuevo equipo cada día. Prepárate y desafía a Red en un combate por turnos.">
+  <title>Daily Red · Un nuevo reto cada día</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+<header class="site-header wrap">
+  <a class="brand" href="./" aria-label="Daily Red, inicio"><span class="pokeball logo-ball"></span> DAILY <strong>RED</strong><span class="brand-edition">KANTO EDITION</span></a>
+  <nav aria-label="Navegación"><a class="nav-active" href="#reto">El reto</a><button id="help-button" class="text-button">Cómo jugar <span>↗</span></button></nav>
+  <button id="sound-button" class="sound-button" aria-label="Activar sonido" aria-pressed="false"><span id="sound-icon">♫</span><span id="sound-label">Sonido off</span></button>
+</header>
+<main class="wrap" id="reto">
+  <section class="intro">
+    <div><p class="eyebrow"><span class="red-dot"></span> UN NUEVO RETO CADA DÍA</p><h1>Un día. Un equipo.<br>Una <em>leyenda.</em></h1><p class="intro-copy">Seis Pokémon aleatorios de Kanto. Red te espera en la cima.<br class="desktop-break"> Revisa tu equipo, prepara tu estrategia y acepta el desafío.</p></div>
+    <div class="daily-clock"><span class="small-label">EL RETO DE HOY</span><div id="today-label">—</div><span class="clock-divider"></span><span class="clock-caption">Próximo equipo en <strong id="countdown">--:--:--</strong></span><span class="utc-note">Se renueva a las 00:00 UTC</span></div>
+  </section>
+  <section class="encounter" aria-label="Encuentro con Red">
+    <div class="game-column">
+      <div class="game-topbar"><span><span class="location-icon">⌁</span> MONTE PLATEADO <span class="location-sub">/ LA CIMA</span></span><span id="phase-label"><span class="status-dot"></span> EXPLORACIÓN</span></div>
+      <div id="game-view" class="game-view">
+        <canvas id="map" width="384" height="172" aria-label="Escena de montaña: tu entrenador está frente a Red"></canvas>
+        <button id="map-red" class="map-red" aria-label="Hablar con Red"><span class="speech-bubble">···</span><span class="map-red-label">RED</span></button>
+        <div class="map-caption"><span class="tiny-ball"></span> La cima está tranquila. Red te espera.</div>
+        <div id="battle-scene" class="battle-scene" hidden></div>
+      </div>
+      <div id="game-controls" class="game-controls"></div>
+    </div>
+    <aside class="rival-panel">
+      <div class="rival-heading"><span class="small-label">AL OTRO LADO DEL CAMPO</span><span class="rival-number">#001</span></div>
+      <div class="red-portrait" aria-hidden="true"><svg viewBox="0 0 32 40" shape-rendering="crispEdges"><path fill="#161d26" d="M10 7h14v3h3v14h-3v4H9V14H7v-4h3z"/><path fill="#de433c" d="M10 4h13v3h3v4H8V7h2z"/><path fill="#f5eee0" d="M12 6h7v3h-7z"/><path fill="#aa2a30" d="M8 11h20v3H8z"/><path fill="#efc498" d="M11 14h13v9h-3v3h-7v-3h-3z"/><path fill="#151d27" d="M12 15h4v3h-4zm9 0h3v3h-3z"/><path fill="#f7e8c8" d="M14 20h7v3h-7z"/><path fill="#de433c" d="M9 26h6v4h5v-4h6v12H8V29h1z"/><path fill="#efe8d6" d="M15 26h5v12h-5zM6 29h4v7H6zm18 0h5v7h-5z"/><path fill="#182632" d="M10 38h6v2h-6zm10 0h6v2h-6z"/></svg><span class="portrait-ring"></span></div>
+      <span class="rival-kicker">ENTRENADOR LEGENDARIO</span><h2>Red<span>.</span></h2><p class="rival-quote">“ … ”</p><p class="rival-description">No necesita presentaciones.<br>Su equipo habla por él.</p>
+      <div class="rival-divider"></div>
+      <div class="rival-roster-heading"><span>SU EQUIPO</span><span>Nv. 80–88</span></div><div id="red-preview" class="red-preview"></div>
+      <div class="rival-footer"><span class="status-dot"></span><span id="rival-status">ESPERANDO TU DESAFÍO</span></div>
+    </aside>
+  </section>
+  <section class="team-section" aria-labelledby="team-title">
+    <div class="section-heading"><div><p class="eyebrow muted">TU COMPAÑÍA PARA HOY</p><h2 id="team-title">Seis oportunidades.</h2></div><span class="team-hint"><span>↖</span> Toca un Pokémon para revisar su ficha</span></div>
+    <div id="team-grid" class="team-grid"></div>
+    <div class="team-note"><span><span class="green-dot"></span> <span id="team-note-text">Tu equipo está listo. Tú decides cuándo empezar.</span></span><button id="rates-button" class="text-button">¿Cómo se elige el equipo? <span>↗</span></button></div>
+  </section>
+  <section class="daily-record" aria-label="Tus resultados"><div><span class="record-icon">⚑</span><div><span class="small-label">TU HISTORIA EN LA CIMA</span><p id="record-summary">El primer paso es aceptar el reto.</p></div></div><div class="record-numbers"><span><strong id="attempt-count">0</strong> intentos hoy</span><span><strong id="win-count">0</strong> victorias hoy</span><span><strong id="days-count">0</strong> días ganados</span></div></section>
+</main>
+<footer class="site-footer wrap"><span class="footer-brand"><span class="pokeball"></span> DAILY RED <span>·</span> Hecho para volver mañana.</span><span>Proyecto de fans · Inspirado en Rojo Fuego <button id="credits-button" class="text-button">Créditos ↗</button></span></footer>
+<dialog id="modal" aria-labelledby="modal-title"><button id="close-modal" class="close-modal" aria-label="Cerrar">×</button><div id="modal-content"></div></dialog>
+<div id="toast" class="toast" role="status" hidden></div>
+<script type="module" src="./src/app.js"></script>
+</body>
+</html>
